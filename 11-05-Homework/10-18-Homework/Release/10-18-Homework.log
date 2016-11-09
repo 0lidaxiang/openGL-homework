@@ -1,0 +1,73 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (10-18-Homework.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+main.cpp(118): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(127): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(207): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(215): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(225): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(233): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(243): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(257): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(266): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(276): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(284): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(293): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(314): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(319): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(321): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(328): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(333): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(335): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(351): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(356): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(358): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(365): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(370): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(372): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(379): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(385): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(387): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(404): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(409): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(411): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(418): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(423): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(425): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(432): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(438): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(440): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(457): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(462): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(464): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(471): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(476): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(478): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(485): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(491): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(493): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(509): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(514): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(516): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(523): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(528): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(530): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(537): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(543): warning C4305: “参数”: 从“double”到“GLfloat”截断
+main.cpp(545): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(560): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(569): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+main.cpp(924): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+main.cpp(925): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+main.cpp(926): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+main.cpp(940): warning C4244: “参数”: 从“float”转换到“GLint”，可能丢失数据
+main.cpp(942): warning C4244: “参数”: 从“float”转换到“GLint”，可能丢失数据
+main.cpp(998): warning C4101: “count_menu”: 未引用的局部变量
+main.cpp(998): warning C4101: “main_menu”: 未引用的局部变量
+main.cpp(998): warning C4101: “action_menu”: 未引用的局部变量
+  正在生成代码
+  3 of 20 functions (15.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  10-18-Homework.vcxproj -> E:\台科学校课程\台科大三上\基础电脑图学\Project1\11-05-Homework\Release\11-05-Project1.exe
+  10-18-Homework.vcxproj -> E:\台科学校课程\台科大三上\基础电脑图学\Project1\11-05-Homework\Release\11-05-Project1.pdb (Full PDB)

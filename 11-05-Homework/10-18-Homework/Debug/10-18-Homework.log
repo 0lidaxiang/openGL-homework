@@ -1,0 +1,21 @@
+﻿  main.cpp
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(59): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(67): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(75): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(83): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(92): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(105): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(112): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(114): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(123): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(130): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(132): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(141): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(149): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(151): warning C4244: “参数”: 从“double”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(202): warning C4244: “参数”: 从“float”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(204): warning C4244: “参数”: 从“float”转换到“GLint”，可能丢失数据
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(346): warning C4101: “count_menu”: 未引用的局部变量
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(346): warning C4101: “main_menu”: 未引用的局部变量
+e:\台科学校课程\台科大三上\基础电脑图学\homework\10-18-homework\10-18-homework\main.cpp(346): warning C4101: “action_menu”: 未引用的局部变量
+LINK : fatal error LNK1104: 无法打开文件“freeglut.lib”
