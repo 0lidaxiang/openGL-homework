@@ -1,19 +1,12 @@
-
 // Standard Header For Most Programs
 #include <windows.h>   
 // The GL Header
 #include <gl/glut.h>     
 // The GL Utility Toolkit (Glut)
 #include <gl/freeglut.h>
-
-
-
-#define _USE_MATH_DEFINES // for C++
-#include <cmath>
-#define _USE_MATH_DEFINES // for C
 #include <math.h>
 
-
+#define M_PI 3.14159265358979323846
 // Angle For The Triangle
 float	g_triangle_rotation;
 // Speed For Rotation
@@ -50,62 +43,29 @@ void display ( void )   // Create The Display Function
 	glRotatef(g_triangle_rotation,0.0f,1.0f,0.0f);
 	glBegin(GL_TRIANGLES);		// Drawing Using Triangles
 
-	//glColor3f(1.0f,0.0f,0.0f);	// Red
-	//glVertex3f( 0.0f, 0.6f, 0.0f);	// Top Of Triangle (Front)
-	//glColor3f(0.0f,1.0f,0.0f);	// Green
-	//glVertex3f(-0.6f,-0.6f, 0.6f);	// Left Of Triangle (Front)
-	//glColor3f(0.0f,0.0f,1.0f);	// Blue
-	//glVertex3f( 0.6f,-0.6f, 0.6f);	// Right Of Triangle (Front)
-
-	//glColor3f(1.0f,0.0f,0.0f);	// Red
-	//glVertex3f( 0.0f, 0.6f, 0.0f);	// Top Of Triangle (Right)
-	//glColor3f(0.0f,0.0f,1.0f);	// Blue
-	//glVertex3f( 0.6f,-0.6f, 0.6f);	// Left Of Triangle (Right)
-	//glColor3f(0.0f,1.0f,0.0f);	// Green
-	//glVertex3f( 0.6f,-0.6f, -0.6f);	// Right Of Triangle (Right)
-
-	//glColor3f(1.0f,0.0f,0.0f);	// Red
-	//glVertex3f( 0.0f, 0.6f, 0.0f);	// Top Of Triangle (Back)
-	//glColor3f(0.0f,1.0f,0.0f);	// Green
-	//glVertex3f( 0.6f,-0.6f, -0.6f);	// Left Of Triangle (Back)
-	//glColor3f(0.0f,0.0f,1.0f);	// Blue
-	//glVertex3f(-0.6f,-0.6f, -0.6f);	// Right Of Triangle (Back)
-
-	#define M_PI 3.14159265358979323846
-	//float h = 1.2 * sin(60 * (180 / M_PI));
 	float h = sqrt(3) * (3.0 / 10);
-	//float h0_small = 9.0 / 40.0;
 	float d_y = sqrt(3) / 10;
 	float b_y = h - d_y;
 
+	//The First Triangle
 	glColor3f(1.0f, 0.0f, 0.0f);	// Red
-	glVertex3f(0.0f, 0.0f, 0.0f);	// Top Of Triangle (Left)
-
+	glVertex3f(0.0f, 0.0f, 0.0f);	// E点
+	
 	glColor3f(0.0f, 0.0f, 1.0f);	// Blue
-	glVertex3f(0.6f, 0.0f, 0.0f);	// Left Of Triangle (Left)
+	glVertex3f(0.6f, 0.0f, 0.0f);	// C点
 
 	glColor3f(0.0f, 1.0f, 0.0f);	// Green
-	glVertex3f(0.3f, h, 0.0f);	// Right Of Triangle (Left)
-	////////////////////////////////////////////////////////////
+	glVertex3f(0.3f, h, 0.0f);	// A点
+
+	//The Second Triangle
 	glColor3f(1.0f, 0.0f, 0.0f);	// Red
-	glVertex3f(0.0f, b_y, 0.0f);	// Top Of Triangle (Left)
+	glVertex3f(0.0f, b_y, 0.0f);	// F点
 
 	glColor3f(0.0f, 0.0f, 1.0f);	// Blue
-	glVertex3f(0.6f, b_y, 0.0f);	// Left Of Triangle (Left)
+	glVertex3f(0.6f, b_y, 0.0f);	// B点
 
 	glColor3f(0.0f, 1.0f, 0.0f);	// Green
-	glVertex3f(0.3f, -d_y, 0.0f);	// Right Of Triangle (Left)
-
-	/////////////////////////
-
-	//glColor3f(1.0f,0.0f,0.0f);	// Red
-	//glVertex3f( 0.0f, -1.6f, 0.0f);	// Top Of Triangle (Left)
-
-	//glColor3f(0.0f,0.0f,1.0f);	// Blue
-	//glVertex3f(-0.6f,-0.6f,-0.6f);	// Left Of Triangle (Left)
-
-	//glColor3f(0.0f,1.0f,0.0f);	// Green
-	//glVertex3f(-0.6f,-0.6f, 0.6f);	// Right Of Triangle (Left)
+	glVertex3f(0.3f, -d_y, 0.0f);	// D点
 
 	glEnd();			// Finished Drawing The Triangle
 	glPopMatrix();
@@ -137,49 +97,9 @@ void ReSizeGLScene( int width , int height )
 	glOrtho(-1,1,-1,1,-1,1);
 }
 
-void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
-{
-	switch ( key ) 
-	{
-	case 27: // When Escape Is Pressed...
-		exit(0);   // Exit The Program
-		break;
-	case 43: // '+'
-		g_rotation_speed+=0.01;
-		break;
-	case 45: // '-'
-		g_rotation_speed-=0.01;
-	default:        // Now Wrap It Up
-		break;
-	}
-}
-
-// Create Special Function (required for arrow keys)
-void arrow_keys ( int a_keys, int x, int y )
-{
-	switch ( a_keys ) 
-	{
-	case GLUT_KEY_UP:
-		g_offset_y += 0.05;
-		break;
-	case GLUT_KEY_DOWN: 
-		g_offset_y -= 0.05;
-		break;
-	case GLUT_KEY_LEFT:
-		g_offset_x -= 0.05;
-		break;
-	case GLUT_KEY_RIGHT: 
-		g_offset_x += 0.05;
-		break;
-	}
-}
-
 // Create Main Function For Bringing It All Together
 void main( int argc, char** argv )
 {
-
-
-	//cout<< M_PI;
 	// init global variable
 	g_rotation_speed = 0.02f;
 	g_triangle_rotation = 0;
@@ -191,16 +111,11 @@ void main( int argc, char** argv )
 	glutInitWindowPosition(500, 300);
 	glutInitWindowSize(500, 500);
 	// Window Title (argv[0] for current directory as title)
-	glutCreateWindow( "NeHe's OpenGL Framework" ); 
-	//glutFullScreen( );          // Put Into Full Screen
-	// Go Into A 500 By 500 Window
-	//glutReshapeWindow ( 500, 500 );
+	glutCreateWindow( "9-14-Homework-LIDAXIANG" ); 
 	InitGL();
 	// Matching Earlier Functions To Their Counterparts
 	glutDisplayFunc(display);
 	glutReshapeFunc(ReSizeGLScene);
-	glutKeyboardFunc(keyboard);
-	glutSpecialFunc(arrow_keys);
 	glutIdleFunc(display);
 	// Initialize The Main Loop
 	glutMainLoop();

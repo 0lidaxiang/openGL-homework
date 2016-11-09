@@ -1,16 +1,10 @@
 ﻿  main.cpp
-main.cpp(76): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-main.cpp(78): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-main.cpp(148): warning C4305: “+=”: 从“double”到“float”截断
-main.cpp(151): warning C4305: “-=”: 从“double”到“float”截断
-main.cpp(163): warning C4305: “+=”: 从“double”到“float”截断
-main.cpp(166): warning C4305: “-=”: 从“double”到“float”截断
-main.cpp(169): warning C4305: “-=”: 从“double”到“float”截断
-main.cpp(172): warning C4305: “+=”: 从“double”到“float”截断
+main.cpp(46): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+main.cpp(47): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
   正在生成代码
-  1 of 9 functions (11.1%) were compiled, the rest were copied from previous compilation.
+  2 of 6 functions (33.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   09-14-homework.vcxproj -> E:\台科学校课程\台科大三上\基础电脑图学\Homework\09-14-homework\Release\09-14-homework.exe
   09-14-homework.vcxproj -> E:\台科学校课程\台科大三上\基础电脑图学\Homework\09-14-homework\Release\09-14-homework.pdb (Full PDB)

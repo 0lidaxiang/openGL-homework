@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="TextureApp.cpp" />
+    <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="InitOpenGLApp.cpp">
+      <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="InitGlutInput.cpp">
+      <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TextureApp.h" />
+    <ClInclude Include="DemoApp.h" />
+    <ClInclude Include="vgl.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="InitOpenGLApp.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="InitGlutInput.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="OpenGL">
+      <UniqueIdentifier>{23004d17-de23-4f8e-ae60-b8c5ac6263b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
