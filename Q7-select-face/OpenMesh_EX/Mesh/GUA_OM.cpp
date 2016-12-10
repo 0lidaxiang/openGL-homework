@@ -503,7 +503,7 @@ void Tri_Mesh::Render_SolidWireframe()
 	glPolygonOffset(2.0, 2.0);
 	glBegin(GL_TRIANGLES);
 
-	if (selectVh.idx() == -1)
+	/*if (!has_face_status())
 	{
 		glColor4f(1.0, 0.96, 0.49, 1.0);
 		for (f_it = faces_begin(); f_it != faces_end(); ++f_it)
@@ -515,11 +515,10 @@ void Tri_Mesh::Render_SolidWireframe()
 		}
 	}
 	else 
-	{
-		
+	{*/
 		for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
 		{
-			if (f_it.handle() == selectVh)
+			if(status(f_it).selected())
 			{
 				glColor4f(1.0, 0, 0, 1.0);
 				for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
@@ -538,7 +537,7 @@ void Tri_Mesh::Render_SolidWireframe()
 				}
 			}
 		}
-	}
+	//}
 	
 	glEnd();
 
@@ -559,30 +558,31 @@ void Tri_Mesh::Render_SolidWireframe()
 	}
 	glEnd();
 	glPopAttrib();
+	//cout << "selectVh:" << selectVh << endl;
 }
 
 void Tri_Mesh::Render_SelectFace()
 {
-	FIter f_it;
-	FVIter	fv_it;
+	//FIter f_it;
+	//FVIter	fv_it;
 
-	glPointSize(8.0);
-	glColor3f(1.0, 0.0, 0.0);
-	glBegin(GL_POINTS);
-	for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
-	{
-		if (f_it.handle() == selectVh)
-		{
-			for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
-			{
-				glNormal3dv(normal(fv_it.handle()).data());
-				glVertex3dv(point(fv_it.handle()).data());
-			}
-		}
-	}
-	glEnd();
+	//glPointSize(8.0);
+	//glColor3f(0.0, 0.0, 0.0);
+	//glBegin(GL_POINTS);
+	//for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
+	//{
+	//	if (f_it.handle() == selectVh)
+	//	{
+	//		for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
+	//		{
+	//			glNormal3dv(normal(fv_it.handle()).data());
+	//			glVertex3dv(point(fv_it.handle()).data());
+	//		}
+	//	}
+	//}
+	//glEnd();
 
-	std::cout << "selectVh:" << selectVh << std::endl;
+	/*std::cout << "selectVh:" << selectVh << std::endl;*/
 }
 
 void Tri_Mesh::Render_Wireframe()
@@ -622,7 +622,7 @@ void Tri_Mesh::Render_Point()
 
 void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 {
-	FHandle vh;//存储当前距离你点击的点最近的面的handle值
+	FHandle fvh;//存储当前距离你点击的点最近的面的handle值
 	double minArea = 1000;
 	OMT::Vec3d q(objX, objY, objZ);
 
@@ -687,12 +687,33 @@ void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 		{
 			std::cout << "before minArea= : " << minArea << std::endl;
 			minArea = s - realS;
-			vh = f_it.handle();
+			fvh = f_it.handle();
 			std::cout << "after minArea= : " << minArea << std::endl;
 		}
 	}
 
-	selectVh = vh;
+	//selectVh = fvh;
+	//build new mapping table
+	//*newMesh = *mesh;
+	//for (VIter v_it = newMesh->vertices_begin(); v_it != newMesh->vertices_end; ++v_it)
+	//{
+	//	newMesh->property(newMesh->origVertex, v_it.handle()) = v_it.handle().idx();
+	//}
+	////delete_face
+	//newMesh->request_face_status();
+	//for (OMT::FIter f_it = newMesh->faces_begin(); f_it != faces_end(); ++f_it)
+	//{
+	//	if (!property(selectFace,f_it)) 
+	//	{
+	//		newMesh->delete_face(f_it.handle(),false);
+	//	}
+	//}
+	//newMesh->garbage_collection();
+	
+	if (!status(fvh).selected())
+	{
+		status(fvh).set_selected(true);
+	}
 
 	cout << "minArea: " << minArea << endl;
 	cout << "selectVh face idx: " << selectVh.idx() <<endl;

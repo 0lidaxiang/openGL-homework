@@ -5,6 +5,8 @@
 #include "Mesh/DP.h"
 
 Tri_Mesh *mesh;
+Tri_Mesh *newMesh = new Tri_Mesh();
+
 
 xform xf;
 GLCamera camera;
@@ -194,7 +196,7 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 		{
 			mesh->Render_SelectFace();
 		}*/
-		mesh->Render_SelectFace();
+		//mesh->Render_SelectFace();
 	}
 	glPopMatrix();
 }

@@ -245,7 +245,7 @@ public:
 	void Render_SelectFace();		//选点选面
 	void SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ);	//选点
 
-	OMT::FHandle selectVh = faces_begin();
+	//OMT::FHandle selectVh = faces_begin();
 	
 
 private:
