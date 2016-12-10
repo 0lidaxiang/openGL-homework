@@ -1,5 +1,5 @@
 ﻿#include "GUA_OM.h"
-
+using namespace std;
 namespace OMT
 {
 	/*======================================================================*/
@@ -516,11 +516,21 @@ void Tri_Mesh::Render_SolidWireframe()
 	}
 	else 
 	{
-		glColor4f(1.0, 0, 0, 1.0);
+		
 		for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
 		{
 			if (f_it.handle() == selectVh)
 			{
+				glColor4f(1.0, 0, 0, 1.0);
+				for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
+				{
+					glNormal3dv(normal(fv_it.handle()).data());
+					glVertex3dv(point(fv_it.handle()).data());
+				}
+			}
+			else 
+			{
+				glColor4f(1.0, 0.96, 0.49, 1.0);
 				for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
 				{
 					glNormal3dv(normal(fv_it.handle()).data());
@@ -612,23 +622,23 @@ void Tri_Mesh::Render_Point()
 
 void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 {
-	double points_Distance = 100;//存储当前距离你点击的点最近的model上面的顶点距离
 	FHandle vh;//存储当前距离你点击的点最近的面的handle值
-	double  a = -1, b = -1, c = -1, abc = -1, s1 = -1, s2 = -1, s3 = -1;//for search the face that you chicked on.
-	double a0 = -1, b0 = -1, c0 = -1, s = -1, realS = -1;
-	double minArea = 1000, diffArea = 0;
+	double minArea = 1000;
+	OMT::Vec3d q(objX, objY, objZ);
 
 	//循环所有的面
 	for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
-		//for (OMT::FHandle f_it = faces_begin(); f_it != faces_end(); ++f_it)
 	{
-		OMT::Vec3d verOfOuterTri[3];
+		double  a = -1, b = -1, c = -1, abc = -1, s1 = -1, s2 = -1, s3 = -1;//for search the face that you chicked on.
+		double a0 = -1, b0 = -1, c0 = -1, s = -1, realS = -1;
+		
+		OMT::Vec3d verOfOuterTri[3];//选中三角形的三个顶点坐标
 		int i = 0;
+
+		//循环当前的面的所有点
 		for (OMT::FVIter v_it = fv_iter(f_it); v_it; ++v_it)
-		//if (OMT::FVIter fv_it(f_it))
 		{
 			OMT::Vec3d p = point(v_it.handle());
-			OMT::Vec3d q(objX, objY, objZ);
 
 			verOfOuterTri[i] = p;
 			i++;
@@ -637,26 +647,15 @@ void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 			if (a < 0)
 			{
 				a = (p - q).length();
-				break;
 			}
-			
-			if (b < 0)
+			else if (b < 0)
 			{
 				b = (p - q).length();
-				break;
 			}
-
-			if (c < 0)
+			else if (c < 0)
 			{
 				c = (p - q).length();
-				break;
 			}
-
-			/*if ((p - q).length() < points_Distance)
-			{
-				points_Distance = (p - q).length();
-				vh = v_it.handle();
-			}*/
 		}
 
 		// Calculate the side length of outer triangle
@@ -678,24 +677,26 @@ void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 		//Calculate the area of this face(no-real area,just your clicked)
 		s = s1 + s2 + s3;
 
+		cout << verOfOuterTri[0]<<"  " << verOfOuterTri[1] << "  " << verOfOuterTri[2] << endl;
 		std::cout << "this face area: " << realS << std::endl;
 		std::cout << "this face area(user clicked): "<< s << std::endl;
 
-		//minArea = s - realS;
 		//Compare the area of this face with the min-area 
 		//And reacord the  handle of smaller result face
 		if ((s - realS) < minArea)
 		{
+			std::cout << "before minArea= : " << minArea << std::endl;
 			minArea = s - realS;
 			vh = f_it.handle();
-			std::cout << "smaller face idx: " << vh.idx() << std::endl;
+			std::cout << "after minArea= : " << minArea << std::endl;
 		}
 	}
 
 	selectVh = vh;
 
-	std::cout << "minArea: " << minArea << std::endl;
-	
+	cout << "minArea: " << minArea << endl;
+	cout << "selectVh face idx: " << selectVh.idx() <<endl;
+	cout <<"\n" << endl;
 }
 
 bool ReadFile(std::string _fileName,Tri_Mesh *_mesh)
