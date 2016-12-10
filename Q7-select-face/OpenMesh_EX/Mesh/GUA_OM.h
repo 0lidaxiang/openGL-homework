@@ -246,6 +246,7 @@ public:
 	void SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ);	//选点
 
 	OMT::FHandle selectVh = faces_begin();
+	
 
 private:
 };
