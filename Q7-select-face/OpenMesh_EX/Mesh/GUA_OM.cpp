@@ -1,4 +1,6 @@
 ﻿#include "GUA_OM.h"
+
+
 using namespace std;
 namespace OMT
 {
@@ -503,19 +505,6 @@ void Tri_Mesh::Render_SolidWireframe()
 	glPolygonOffset(2.0, 2.0);
 	glBegin(GL_TRIANGLES);
 
-	/*if (!has_face_status())
-	{
-		glColor4f(1.0, 0.96, 0.49, 1.0);
-		for (f_it = faces_begin(); f_it != faces_end(); ++f_it)
-		{
-			for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
-			{
-				glVertex3dv(point(fv_it.handle()).data());
-			}
-		}
-	}
-	else 
-	{*/
 		for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
 		{
 			if(status(f_it).selected())
@@ -537,7 +526,6 @@ void Tri_Mesh::Render_SolidWireframe()
 				}
 			}
 		}
-	//}
 	
 	glEnd();
 
@@ -558,31 +546,94 @@ void Tri_Mesh::Render_SolidWireframe()
 	}
 	glEnd();
 	glPopAttrib();
-	//cout << "selectVh:" << selectVh << endl;
 }
 
 void Tri_Mesh::Render_SelectFace()
 {
-	//FIter f_it;
-	//FVIter	fv_it;
+	vector <VHandle> boundaryVector;
+	//delete vertex
+	request_vertex_status();
+	bool not_delete = false;
+	//对newmesh里的未被选择点标记为“清除”
+	for (VIter it = vertices_begin(); it != vertices_end(); ++it)
+	{
+		not_delete = false;
 
-	//glPointSize(8.0);
-	//glColor3f(0.0, 0.0, 0.0);
-	//glBegin(GL_POINTS);
-	//for (OMT::FIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
-	//{
-	//	if (f_it.handle() == selectVh)
-	//	{
-	//		for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
-	//		{
-	//			glNormal3dv(normal(fv_it.handle()).data());
-	//			glVertex3dv(point(fv_it.handle()).data());
-	//		}
-	//	}
-	//}
+		for (OMT::VFIter vf_it = vf_iter(it); vf_it; ++vf_it)
+		{
+			if (status(vf_it).selected())
+			{
+				not_delete = true;
+				break;
+			}
+		}
+		if (!not_delete)
+		{
+			delete_vertex(it.handle(), false);
+		}
+	}
+	//清除之前标记的点及面
+	garbage_collection();
+
+	/*cout << "n_faces(): " << n_faces() << endl;
+	cout << "n_vertices(): " << n_vertices() << endl;*/
+
+	//找到第一个外围点的handle值
+	bool can_record = false;
+	VHandle first_vertex;
+	for (VIter it = vertices_begin(); it != vertices_end(); it++) 
+	{
+		if (is_boundary(it))
+		{
+				first_vertex = it.handle();
+				can_record = true;
+				cout << "first vertex handle:" << it.handle() << endl;
+		}
+		if (can_record)
+		{
+			break;
+		}
+	}
+
+	//把外围点的handle值按照逆时针顺序存起来
+	HHandle hh_init = halfedge_handle(first_vertex);
+	HHandle hh = hh_init;
+	boundaryVector.push_back(from_vertex_handle(hh));
+	hh = next_halfedge_handle(hh);
+	while (hh != hh_init) {
+		boundaryVector.push_back(from_vertex_handle(hh));
+		hh = next_halfedge_handle(hh);
+	}
+	cout << endl;
+
+	//下面只是测试用的输出坐标
+	cout << "选中多边形的所有外围点的坐标(順時針):  ";
+	for (int i = 0; i< boundaryVector.size(); i++)
+	{
+		cout << point(boundaryVector[i]) << " , ";
+	}
+	cout << endl;
+
+	//使用point函数，现在已经确定了texture需要的对应3D坐标，只要load图然后贴上去就ok
+	//GLuint m_texture;
+	////m_Background = GenTexture("Media\\Texture\\coin.png"); // 分配一个纹理对象的编号
+
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	////glClearColor(0.02f, 0.3f, 0.55f, 1.0f);
+	//glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//将引入的值与颜色缓冲中已有的值混合
+
+	//glPushMatrix();
+	//glBindTexture(GL_TEXTURE_2D, m_texture);//载入纹理，背景纹理图
+	//glBegin(GL_QUADS);
+	////第一个参数是X坐标，0.0是纹理的左侧，1.0是纹理的右侧。第二个参数是Y坐标，0.0是纹理的底部，1.0是纹理的顶部。
+	//glTexCoord2d(0, 0); glVertex3d(-1, -1,1);
+	//glTexCoord2d(1, 0); glVertex3d(1, -1, 1);
+	//glTexCoord2d(1, 1); glVertex3d(1, 1, 1);
+	//glTexCoord2d(0, 1); glVertex3d(-1, 1, 1);
 	//glEnd();
-
-	/*std::cout << "selectVh:" << selectVh << std::endl;*/
+	//glPopMatrix();
 }
 
 void Tri_Mesh::Render_Wireframe()
@@ -677,47 +728,24 @@ void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 		//Calculate the area of this face(no-real area,just your clicked)
 		s = s1 + s2 + s3;
 
-		cout << verOfOuterTri[0]<<"  " << verOfOuterTri[1] << "  " << verOfOuterTri[2] << endl;
-		std::cout << "this face area: " << realS << std::endl;
-		std::cout << "this face area(user clicked): "<< s << std::endl;
+		//cout<< "外围大三角形的所有顶点的坐标： " << verOfOuterTri[0]<<"  " << verOfOuterTri[1] << "  " << verOfOuterTri[2] << endl;
+		/*std::cout << "this face area: " << realS << std::endl;
+		std::cout << "this face area(user clicked): "<< s << std::endl;*/
 
 		//Compare the area of this face with the min-area 
 		//And reacord the  handle of smaller result face
 		if ((s - realS) < minArea)
 		{
-			std::cout << "before minArea= : " << minArea << std::endl;
 			minArea = s - realS;
 			fvh = f_it.handle();
-			std::cout << "after minArea= : " << minArea << std::endl;
 		}
 	}
 
-	//selectVh = fvh;
-	//build new mapping table
-	//*newMesh = *mesh;
-	//for (VIter v_it = newMesh->vertices_begin(); v_it != newMesh->vertices_end; ++v_it)
-	//{
-	//	newMesh->property(newMesh->origVertex, v_it.handle()) = v_it.handle().idx();
-	//}
-	////delete_face
-	//newMesh->request_face_status();
-	//for (OMT::FIter f_it = newMesh->faces_begin(); f_it != faces_end(); ++f_it)
-	//{
-	//	if (!property(selectFace,f_it)) 
-	//	{
-	//		newMesh->delete_face(f_it.handle(),false);
-	//	}
-	//}
-	//newMesh->garbage_collection();
-	
+	//给所点击的面标记为“被选中”
 	if (!status(fvh).selected())
 	{
 		status(fvh).set_selected(true);
 	}
-
-	cout << "minArea: " << minArea << endl;
-	cout << "selectVh face idx: " << selectVh.idx() <<endl;
-	cout <<"\n" << endl;
 }
 
 bool ReadFile(std::string _fileName,Tri_Mesh *_mesh)
