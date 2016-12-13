@@ -202,6 +202,7 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 	if (mesh!= NULL) 
 	{
 		mesh->Render_SolidWireframe();
+		//mesh->Render_DrawTexture();
 	}
 	glPopMatrix();
 }
@@ -317,7 +318,7 @@ private: System::Void openModelDialog_FileOk(System::Object^  sender, System::Co
 		delete mesh;
 
 	mesh = new Tri_Mesh;
-
+	LoadBMPinitRendering();
 	if (ReadFile(filename, mesh))
 		std::cout << filename << std::endl;
 

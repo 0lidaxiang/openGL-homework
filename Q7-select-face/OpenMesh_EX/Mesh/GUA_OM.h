@@ -10,6 +10,11 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
+
+//#include ".\Mesh\imageloader.h"
+#include "imageloader.h"
+
+
 struct Face_InnerAngle
 {
 	double Vertex_Angle[3];
@@ -71,6 +76,8 @@ namespace OMT//OpenMesh Triangle mesh
 	typedef MyMesh::FaceFaceIter							FFIter	;	//FaceFaceIter type
 	typedef MyMesh::VertexOHalfedgeIter						VOHEIter;	//VertexOutHalfEdge type
 	typedef MyMesh::ConstVertexVertexIter					CVVIter	;	//ConstVertexVertexIter type
+
+	
 	/*----------------------------------------------------------------------*/
 
 	/*定義額外資料結構*/
@@ -172,6 +179,7 @@ namespace OMP//OpenMesh Polygonal mesh
 		//資料成員
 	public:
 		MyMesh Mesh;													//OpenMesh instance
+		
 	private:
 		vector< sp_p > sp_p_list;
 		vector< sp_v > sp_v_list;
@@ -231,6 +239,9 @@ public:
 	OMT::VHandle                               ExtremeVh[2];
 	int                                        PatchType;
 
+	
+
+
 	std::vector<OMT::VHandle>                  Pluspt      ;
 	std::vector<OMT::VHandle>                  Minuspt     ;
 	std::vector<OMT::VHandle>                  Extrme_Pt   ;
@@ -242,6 +253,7 @@ public:
 	void Render_Point();
 
 	void Render_SelectFace();		//选点选面
+	void Render_DrawTexture();
 	void SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ);	//选点
 
 	//OMT::FHandle selectVh = faces_begin();
@@ -250,6 +262,7 @@ public:
 private:
 };
 
+void LoadBMPinitRendering();
 ///*======================================================================*/
 /*======================================================================*/
 bool ReadFile(std::string _fileName, Tri_Mesh *_mesh); //讀取mesh資料

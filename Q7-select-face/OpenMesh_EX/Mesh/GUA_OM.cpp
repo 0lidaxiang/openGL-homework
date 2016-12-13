@@ -1,6 +1,5 @@
 ﻿#include "GUA_OM.h"
 
-
 using namespace std;
 namespace OMT
 {
@@ -493,6 +492,21 @@ void Tri_Mesh::Render_Solid()
 		glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
+GLuint loadTexture(Image* image) {
+	GLuint textureId;
+	glGenTextures(1, &textureId);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	glTexImage2D(GL_TEXTURE_2D,
+		0,
+		GL_RGB,
+		image->width, image->height,
+		0,
+		GL_RGB,
+		GL_UNSIGNED_BYTE,
+		image->pixels);
+	return textureId;
+}
+
 void Tri_Mesh::Render_SolidWireframe()
 {
 	FIter f_it;
@@ -509,11 +523,13 @@ void Tri_Mesh::Render_SolidWireframe()
 		{
 			if(status(f_it).selected())
 			{
-				glColor4f(1.0, 0, 0, 1.0);
+				//glColor4f(1.0, 0, 0, 1.0);
 				for (fv_it = fv_iter(f_it); fv_it; ++fv_it)
 				{
+					Render_DrawTexture();
 					glNormal3dv(normal(fv_it.handle()).data());
-					glVertex3dv(point(fv_it.handle()).data());
+					glVertex3dv(point(fv_it.handle()).data()); 
+					
 				}
 			}
 			else 
@@ -548,9 +564,15 @@ void Tri_Mesh::Render_SolidWireframe()
 	glPopAttrib();
 }
 
+//GLuint _textureId;
+
+vector<double> texCoord2dX;
+vector<double> texCoord2dY;
+vector <OMT::VHandle> boundaryVector;
+
 void Tri_Mesh::Render_SelectFace()
 {
-	vector <VHandle> boundaryVector;
+	
 	//delete vertex
 	request_vertex_status();
 	bool not_delete = false;
@@ -598,6 +620,7 @@ void Tri_Mesh::Render_SelectFace()
 	//把外围点的handle值按照逆时针顺序存起来
 	HHandle hh_init = halfedge_handle(first_vertex);
 	HHandle hh = hh_init;
+	boundaryVector.clear();
 	boundaryVector.push_back(from_vertex_handle(hh));
 	hh = next_halfedge_handle(hh);
 	while (hh != hh_init) {
@@ -606,34 +629,149 @@ void Tri_Mesh::Render_SelectFace()
 	}
 	cout << endl;
 
-	//下面只是测试用的输出坐标
-	cout << "选中多边形的所有外围点的坐标(順時針):  ";
+	//下面只是测试用的输出坐标，但这里的坐标已经可以填入glVertex3d了
+	cout << "选中多边形的所有外围点的坐标(順時針):  " << endl;
 	for (int i = 0; i< boundaryVector.size(); i++)
 	{
-		cout << point(boundaryVector[i]) << " , ";
+		for (int j = 0; j < point(boundaryVector[i]).size(); j++)
+		{
+			cout << point(boundaryVector[i])[j] << ", ";
+		}
+		cout << "  ||   ";
 	}
 	cout << endl;
+	
+	//计算多边形顶点在贴图上对应的位置，以便填入glTexCoord2d
+	double sum_distance = 0;
+	double rate = 0;
+	
+	OMT::Vec3d p ;
+	OMT::Vec3d q ;
+	//计算多边形顶点在贴图上对应的位置，以便填入glTexCoord2d
+	//计算多边形总的周长
+	for (int i = 0; i < boundaryVector.size() ; i++)
+	{
+		if (i == (boundaryVector.size() - 1))
+		{
+			p = point(boundaryVector[i]);
+			q = point(boundaryVector[0]);
+		}
+		else 
+		{
+			p = point(boundaryVector[i]);
+			q = point(boundaryVector[i + 1]);
+		}
+		sum_distance = sum_distance + (p - q).length();
+	}
+	cout <<"sum_distance: "<<sum_distance << endl;
 
-	//使用point函数，现在已经确定了texture需要的对应3D坐标，只要load图然后贴上去就ok
-	//GLuint m_texture;
-	////m_Background = GenTexture("Media\\Texture\\coin.png"); // 分配一个纹理对象的编号
+	//计算多边形顶点在贴图上对应的位置，以便填入glTexCoord2d
+	double head_now_length = 0.0;
+	//先计算第一个点的对应在贴图中原点
+	texCoord2dX.clear();
+	texCoord2dY.clear();
 
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	////glClearColor(0.02f, 0.3f, 0.55f, 1.0f);
-	//glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//将引入的值与颜色缓冲中已有的值混合
+	texCoord2dX.push_back(0.0);
+	texCoord2dY.push_back(0.0);
 
-	//glPushMatrix();
-	//glBindTexture(GL_TEXTURE_2D, m_texture);//载入纹理，背景纹理图
-	//glBegin(GL_QUADS);
-	////第一个参数是X坐标，0.0是纹理的左侧，1.0是纹理的右侧。第二个参数是Y坐标，0.0是纹理的底部，1.0是纹理的顶部。
-	//glTexCoord2d(0, 0); glVertex3d(-1, -1,1);
-	//glTexCoord2d(1, 0); glVertex3d(1, -1, 1);
-	//glTexCoord2d(1, 1); glVertex3d(1, 1, 1);
-	//glTexCoord2d(0, 1); glVertex3d(-1, 1, 1);
-	//glEnd();
-	//glPopMatrix();
+	cout << "Render_SelectFace : texCoord2dX[0]： " << texCoord2dX[0] << " , texCoord2dY[0]" 
+		<< texCoord2dY[0] << "   " << endl;;
+
+	//计算多边形每个边长的所占长度，并计算存储相对应的2d贴图中的位置
+	for (int i = 0; i < (boundaryVector.size() - 1); i++)
+	{
+		p = point(boundaryVector[i]);
+		q = point(boundaryVector[i + 1]);
+
+		head_now_length = head_now_length + (double)(p - q).length();
+
+		rate = head_now_length / sum_distance;
+		double point_in_texture = rate * 4;
+		
+		if (point_in_texture < 1)
+		{
+			texCoord2dX.push_back(rate * 4.0);
+			texCoord2dY.push_back(0.0);
+		}
+		else if (point_in_texture < 2)
+		{
+			texCoord2dX.push_back(1.0);
+			texCoord2dY.push_back(rate * 4.0 - 1);
+		}
+		else if (point_in_texture < 3)
+		{
+			texCoord2dX.push_back(3 - rate * 4.0);
+			texCoord2dY.push_back(1.0);
+		}
+		else if (point_in_texture < 4)
+		{
+			texCoord2dX.push_back(0.0);
+			texCoord2dY.push_back(4 - rate * 4.0);
+		}
+		else 
+		{
+			cout << "Some error happend.The rate should not over 1 ." << endl;
+		}
+	}
+}
+
+GLuint _textureId;
+void LoadBMPinitRendering()
+{
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	Image* image = loadBMP("vtr1.bmp");
+	_textureId = loadTexture(image);
+	delete image;
+}
+//vector<auto> newmeshNormal;
+void Tri_Mesh::Render_DrawTexture()
+{
+	//cout << "Render_DrawTexture   texCoord2d.size :" << texCoord2dX.size() << endl;
+	//cout << "Render_DrawTexture  boundaryVector.size :" << boundaryVector.size() << endl;
+	if (boundaryVector.size() > 2)
+	{
+		//使用point函数，现在已经确定了texture需要的对应3D坐标，只要load图然后贴上去就ok
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, _textureId);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		for (int i = 0; i < boundaryVector.size(); i++)
+		{
+			cout << "绘图boundaryVector： ";
+			for (int j = 0; j < point(boundaryVector[i]).size(); j++)
+			{
+				cout << point(boundaryVector[i])[j] << ", ";
+			}
+			cout << endl;
+		}
+
+		for (int i = 0; i < texCoord2dX.size(); i++)
+		{
+			cout << "绘图texCoord2dX： ";
+			cout << texCoord2dX[i] << ", ";
+				cout << texCoord2dY[i] <<  endl;
+		}
+		cout <<"\n" << endl;
+		
+		glPushMatrix();
+		glBindTexture(GL_TEXTURE_2D, _textureId);
+		glBegin(GL_TRIANGLES);
+		glNormal3f(1, 0, 1);
+		for (int i = 0; i < boundaryVector.size(); i++)
+		{
+			glTexCoord2d(texCoord2dX[i], texCoord2dY[i]);
+			glVertex3d(point(boundaryVector[i])[0], point(boundaryVector[i])[1], point(boundaryVector[i])[2]);
+		}
+		glEnd();
+		glPopMatrix();
+	}
+	
 }
 
 void Tri_Mesh::Render_Wireframe()
@@ -673,6 +811,12 @@ void Tri_Mesh::Render_Point()
 
 void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 {
+	if (!has_vertex_normals())
+	{
+		request_vertex_normals();
+		std::cout << "ERROR: Standard vertex property 'Normals' not available! AND I had added.\n";
+	}
+
 	FHandle fvh;//存储当前距离你点击的点最近的面的handle值
 	double minArea = 1000;
 	OMT::Vec3d q(objX, objY, objZ);
@@ -740,11 +884,23 @@ void Tri_Mesh::SelectFace(GLdouble objX, GLdouble objY, GLdouble objZ)
 			fvh = f_it.handle();
 		}
 	}
-
+	
 	//给所点击的面标记为“被选中”
 	if (!status(fvh).selected())
 	{
 		status(fvh).set_selected(true);
+		/*newmeshNormal.push_back(normal(fvh));
+		cout << "Normal size: " << newmeshNormal.size() << endl;
+		cout << "Normal begin: " << newmeshNormal[0] << endl;*/
+		//cout << "Normal end: " << newmeshNormal.end() << endl;
+	}
+	cout << "Normal size: " << normal(fvh) << endl;
+	for (VertexIter v_it = vertices_begin();
+		v_it != vertices_end(); ++v_it)
+	{
+		std::cout << "Vertex #" << *v_it << ": " << point(*v_it);
+		set_point(*v_it, point(*v_it) +normal(*v_it));
+		std::cout << " moved to " << point(*v_it) << std::endl;
 	}
 }
 

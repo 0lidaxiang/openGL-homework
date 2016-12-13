@@ -125,7 +125,7 @@ void drawFloor(int textureId) {
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
+
 	//ÏÂÃæ¾µ×Ó
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);
